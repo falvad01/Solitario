@@ -99,7 +99,7 @@ public class GameTable {
 				// izquierda emparejan
 
 				System.out.println(pileCards[0][posX].toString() + " Con " + pileCards[0][posX - 1].toString());
-				// ENVIAMOS LA CARTA A MOVER
+				checkMoves(posX - 1, posY, 1);// Enviamos la posicion destino
 				checkOtherOption = false;// Cambiamos el falg para que no mire otras opciones
 
 			} else if ((posX >= 3) && checkOtherOption) { // Para mirar la primera a la izquierda la primera posicion
@@ -116,7 +116,7 @@ public class GameTable {
 
 					System.out.println(
 							"En 3: " + pileCards[0][posX].toString() + " Con " + pileCards[0][posX - 3].toString());
-					// ENVIAMOS LA CARTA A MOVER
+					checkMoves(posX - 1, posY, 3); // Enviamos la posicion destino
 					checkOtherOption = false;// Cambiamos el falg para que no mire otras opciones
 
 				}
@@ -159,7 +159,7 @@ public class GameTable {
 				moveUp(posX + 1, posY);
 
 			} else {
-				
+
 				moveDown(posX, posY);
 				moveLeft(posX + 1, posY);
 				moveAllLeft(posX + 1, posY);
@@ -178,9 +178,9 @@ public class GameTable {
 				moveUp(posX + 3, posY);
 
 			} else {
-				
+
 				moveDown(posX, posY);
-				moveLeft(posX + 3, posY);
+				moveThreeLeft(posX + 3, posY);
 				moveAllLeft(posX + 3, posY);
 
 			}
@@ -213,6 +213,8 @@ public class GameTable {
 
 	private void moveLeft(int posX, int posY) {
 
+		pileCards[posY][posX - 1] = pileCards[posY][posX];
+
 	}
 
 	/**
@@ -225,6 +227,8 @@ public class GameTable {
 	 */
 	private void moveThreeLeft(int posX, int posY) {
 
+		pileCards[posY][posX - 3] = pileCards[posY][posX];
+
 	}
 
 	/**
@@ -235,6 +239,12 @@ public class GameTable {
 	 *             Movemos las cartas abajo para dejar hueco a la que se va a mover
 	 */
 	private void moveDown(int posX, int posY) {
+
+		for (int i = 51; i >= 0; i--) {
+			if (i < 51) {
+				pileCards[i + 1][posX] = pileCards[i][posX];
+			}
+		}
 
 	}
 
@@ -248,6 +258,10 @@ public class GameTable {
 	 */
 	private void moveUp(int posX, int posY) {
 
+		for (int i = 0; i < 51; i++) {
+			pileCards[i][posX] = pileCards[i + 1][posX]; // Subimos las que tenia debajo la que movimos
+																	// a la izquierda
+		}
 	}
 
 	private void calculateResult() {
