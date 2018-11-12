@@ -99,7 +99,7 @@ public class GameTable {
 				// izquierda emparejan
 
 				System.out.println(pileCards[0][posX].toString() + " Con " + pileCards[0][posX - 1].toString());
-				//moveUp(posX - 1, posY, 1);// SE ENVIA LA POSICION DE LA QUE TIENE QUE IR ABAJO
+				// ENVIAMOS LA CARTA A MOVER
 				checkOtherOption = false;// Cambiamos el falg para que no mire otras opciones
 
 			} else if ((posX >= 3) && checkOtherOption) { // Para mirar la primera a la izquierda la primera posicion
@@ -112,11 +112,11 @@ public class GameTable {
 					// cartas a la
 					// izquierda hay
 					// una que
-					// empareja 
+					// empareja
 
 					System.out.println(
 							"En 3: " + pileCards[0][posX].toString() + " Con " + pileCards[0][posX - 3].toString());
-				//	moveUp(posX - 3, posY, 3);// TODO MIRAR COMENTARIOS DE moveUp
+					// ENVIAMOS LA CARTA A MOVER
 					checkOtherOption = false;// Cambiamos el falg para que no mire otras opciones
 
 				}
@@ -133,103 +133,120 @@ public class GameTable {
 	 * TIENE PREFERENCIA MOVER ARRIBA ANTES QUE MOVER A LA IZQUIERDA TODO EL FALLO
 	 * DE QUE NO EMPAREJEN BIEN LAS CARTAS PUEDE ESTAR AQUI
 	 */
-	private void moveUp(int posX, int posY, int postToMove) {
 
-		if (postToMove == 1) { // Casos para cuando saltamos hacia la izquierda
+	/**
+	 * 
+	 * @param posX
+	 * @param posY
+	 * @param postToMove
+	 * 
+	 * 
+	 *                   Comprovamos si tenemos que mover izquierda arriba o solo
+	 *                   izquierda
+	 */
+	private void checkMoves(int posX, int posY, int postToMove) {
 
-			if (pileCards[posY + 1][posX + 1] == null) { // Comprobamos que en la posicion de abajo no haya nada, y
-															// llamamos a moveLeft
-				moveLeft(posX, posY);
+		if (postToMove == 1) { // Si hay que moverse solo una posicion habria que moverse: 1-Abajo la carta que
+								// esta em la posicion destino 2-todo a la izquierda
+
+			if (pileCards[posY + 1][posX + 1] == null) { // Miramos si debajo de la carta que vamos a mover hay alguna
+															// carta, en caso de ser asi se sustituye le mover a la
+															// izquierda por mover arriba todas las cartas que esten
+															// debajo de el
+
+				moveDown(posX, posY);
+				moveLeft(posX + 1, posY);
+				moveUp(posX + 1, posY);
+
 			} else {
-				// TODO mover a la izquierda y arriba
-
-				moveDown(posX, posY); // Movemos abajo para dejar hueco
-
-				System.out.println("MOVEMOS A LA IZQUIERDA Y LUEGO ARRIBA");
-				pileCards[posY][posX] = pileCards[posY][posX + 1]; // En este caso solo hay que mover una carta a la izq
-
-				for (int i = 0; i < 51; i++) {
-
-					pileCards[i][posX + 1] = pileCards[i + 1][posX + 1]; // Subimos las que tenia debajo la que movimos
-																			// a la izquierda
-				}
+				
+				moveDown(posX, posY);
+				moveLeft(posX + 1, posY);
+				moveAllLeft(posX + 1, posY);
 
 			}
 
-		} else if (postToMove == 3) {// Casos en los que saltamos 3 a la izquieda
+		} else if (postToMove == 3) {
 
-			if (pileCards[posY + 1][posX + 3] == null) { // Comprobamos que en la posicion de abajo no haya nada, y
-															// llamamos a moveLeft
-				moveThreeLeft(posX, posY);
+			if (pileCards[posY + 1][posX + 3] == null) { // Miramos si debajo de la carta que vamos a mover hay alguna
+				// carta, en caso de ser asi se sustituye le mover a la
+				// izquierda por mover arriba todas las cartas que esten
+				// debajo de el
+
+				moveDown(posX, posY);
+				moveLeft(posX + 3, posY);
+				moveUp(posX + 3, posY);
 
 			} else {
+				
+				moveDown(posX, posY);
+				moveLeft(posX + 3, posY);
+				moveAllLeft(posX + 3, posY);
 
-				moveDown(posX, posY); // Movemos abajo para dejar hueco
-
-				System.out.println("MOVEMOS A LA IZQUIERDA Y LUEGO ARRIBA");
-				pileCards[posY][posX] = pileCards[posY][posX + 3]; // En este caso solo hay que mover una carta a la izq
-
-				for (int i = 0; i < 51; i++) {
-
-					pileCards[i][posX + 1] = pileCards[i + 1][posX + 1]; // Subimos las que tenia debajo la que movimos
-																			// a la izquierda
-				}
 			}
+
 		}
 
-		printMatrix();
-		System.out.println("Vuelta Nº" + numVueltas++);
-
-		movements(1, 0, false); // Volvemos a comprobar si hay algun movimiento extra despues de cada movimiento
+		movements(1, 0, false);// volvemos a mirar todos los movimientos desde 0
 
 	}
+
+	/**
+	 * 
+	 * @param posX
+	 * @param posY
+	 * 
+	 *             Movemos todo a la izquieda desde la posicion dada
+	 */
+
+	private void moveAllLeft(int posX, int posY) {
+
+	}
+
+	/**
+	 * 
+	 * @param posX
+	 * @param posY
+	 * 
+	 *             Movemos solo UNA carta a la izquierda
+	 */
 
 	private void moveLeft(int posX, int posY) {
 
-		if (!movedownYet) {
-			
-			moveDown(posX, posY);// Movemos abajo para dejar hueco
-		}
-		System.out.println("MOVEMOS A LA IZQUIERDA");
-
-		// TODO MOVER LAS FILAS DE DEBAJO TAMBIEN, PARA QUE ESTE TODO EN LINEA
-		// TODO INVESTIGAR COMO MOVER TODAS LAS COLUMNAS DE IZQUIERDA A DERECHA
-
-		// for (int j = posY; j < 51; j++) {
-		for (int i = posX; i < 51; i++) {
-
-			pileCards[posY][i] = pileCards[posY][i + 1]; // Movemos a la izquierda toda la baraja
-
-		}
-		// }
-
-		pileCards[posY][posToDelete--] = null; // Eliminamos la carta que acabamos de mover de su antigua posicion
 	}
 
+	/**
+	 * 
+	 * @param posX
+	 * @param posY
+	 * 
+	 *             Movemos solo UNA carta 3 posiciones a la izquierda, eso en todas
+	 *             las columnas
+	 */
 	private void moveThreeLeft(int posX, int posY) {
 
-		System.out.println("MOVER 3 A LA IZQUIERDA");
-		moveDown(posX, posY);
+	}
 
-		pileCards[posY][posX] = pileCards[posY][posX + 3]; // En este caso solo hay que mover una carta a la izq
-
-		moveLeft(posX + 3, posY);
+	/**
+	 * 
+	 * @param posX
+	 * @param posY
+	 * 
+	 *             Movemos las cartas abajo para dejar hueco a la que se va a mover
+	 */
+	private void moveDown(int posX, int posY) {
 
 	}
 
-	private void moveDown(int posX, int posY) {
-
-		System.out.println("MOVEMO ABAJO");
-		// System.out.println(pileCards[posY][posX].toString());
-
-		for (int i = 51; i >= 0; i--) {
-
-			if (i < 51) {
-				pileCards[i + 1][posX] = pileCards[i][posX];
-			}
-		}
-		movedownYet = true;
-		printMatrix();
+	/**
+	 * 
+	 * @param posX
+	 * @param posY
+	 * 
+	 *             En caso de que tengamos una carta con cartas debajo, en vez de
+	 *             mover a la izquierda, tenemos que subir las cartas que hay debajo
+	 */
+	private void moveUp(int posX, int posY) {
 
 	}
 
