@@ -11,7 +11,7 @@ package es.unileon.falvad01.solitario;
  * COMPROVACION(SE PUEDE HACER RECURSIVO) SE PUEDE HACER CON FLAGS, CUANDO TODOS
  * SEAN FALSO(NO HAY ACCIONES) SE PASA A MIRAR LA CARTA SIGUIENTE
  * 
- * 
+ * FALLO EN ITER 54-55, En 3: TS Con TH [TS SOLO SE MUEVE 1, BORRANDO JH Y DUPLICANDO TH]
  */
 public class GameTable {
 
@@ -59,8 +59,9 @@ public class GameTable {
 			this.pileCards[0][i] = this.deck[i];
 
 		}
-
-		//printMatrix();
+		System.out.println("PRIMERA MATRIZ");
+		printMatrix();
+		System.out.println("PRIMERA MATRIZ");
 
 		if (movements(1, 0, false)) {
 			calculateResult();
@@ -104,7 +105,7 @@ public class GameTable {
 				// la
 				// izquierda emparejan
 
-				//System.out.println(pileCards[0][posX].toString() + " Con " + pileCards[0][posX - 1].toString());
+				System.out.println(pileCards[0][posX].toString() + " Con " + pileCards[0][posX - 1].toString());
 				checkMoves(posX - 1, posY, 1);// Enviamos la posicion destino
 				checkOtherOption = false;// Cambiamos el falg para que no mire otras opciones
 
@@ -120,8 +121,8 @@ public class GameTable {
 					// una que
 					// empareja
 
-				//	System.out.println("En 3: " + pileCards[0][posX].toString() + " Con " + pileCards[0][posX - 3].toString());
-					checkMoves(posX - 1, posY, 3); // Enviamos la posicion destino
+					System.out.println("En 3: " + pileCards[0][posX].toString() + " Con " + pileCards[0][posX - 3].toString());
+					checkMoves(posX - 3, posY, 3); // Enviamos la posicion destino
 					checkOtherOption = false;// Cambiamos el falg para que no mire otras opciones
 
 				}
@@ -183,7 +184,7 @@ public class GameTable {
 				// debajo de el
 
 				moveDown(posX, posY);
-				moveLeft(posX + 3, posY);
+				moveThreeLeft(posX + 3, posY);
 				moveUp(posX + 3, posY);
 
 			} else {
@@ -197,7 +198,9 @@ public class GameTable {
 			}
 
 		}
-		//printMatrix();
+		System.out.println("Iter Nº" +  numVueltas++);
+		printMatrix();
+		System.out.println("ESTO ES UN ESPACIO\n");
 		movements(1, 0, false);// volvemos a mirar todos los movimientos desde 0
 
 	}
