@@ -19,13 +19,11 @@ public class GameTable {
 	private Card[][] pileCards;
 	int[] resultado;
 	private int posToDelete = 51;
-	private boolean movedownYet = false;
-	private int numVueltas = 0; // DEBUG
 
 	public GameTable() {
 		this.deck = new Card[52];
 		this.pileCards = new Card[52][52];
-		this.resultado = new int[52];
+		this.resultado = new int[53];
 	}
 
 	public int[] getResultado() {
@@ -37,7 +35,7 @@ public class GameTable {
 		Deck deckObject = new Deck();
 
 		for (int h = 0; h < deck.length; h++) {
-			// System.out.println("CARD " + (h + 1) + ": " + deck[h]);
+
 			deckObject.addCard(newDeck[h]);// Añadimos carta a carta a la baraja
 
 		}
@@ -49,21 +47,21 @@ public class GameTable {
 
 	public void arrayToMatrix() {
 
+		for (int i = 0; i < 52; i++) {
+			for (int j = 0; j < 52; j++) {
+				pileCards[i][j] = null;
+			}
+		}
+
 		for (int i = 0; i < deck.length; i++) {
 
 			this.pileCards[0][i] = this.deck[i];
 
 		}
-		System.out.println("PRIMERA MATRIZ");
-		printMatrix();
-		System.out.println("PRIMERA MATRIZ");
 
+		posToDelete = 51; // Reiniciamos la posicion a borrar
 		if (movements(1, 0)) {
-			System.out.println("REPETIMOS");
-			movements(1, 0);
-			calculateResult();
-			// System.out.println("Todo Comprovado");
-
+			calculateResult(); // Contamos las filas
 		}
 
 	}
@@ -106,12 +104,6 @@ public class GameTable {
 					// una que
 					// empareja
 
-					System.out.println(
-							"En tres: " + pileCards[0][posX].toString() + " Con " + pileCards[0][posX - 3].toString());
-					System.out.println("Iter Nº" + numVueltas++);
-					printMatrix();
-					System.out.println();
-
 					checkMoves(posX - 3, posY, 3); // Enviamos la posicion destino
 					checkOtherOption = false;// Cambiamos el falg para que no mire otras opciones
 				}
@@ -127,11 +119,6 @@ public class GameTable {
 					// inmediatamente a
 					// la
 					// izquierda emparejan
-
-					System.out.println(pileCards[0][posX].toString() + " Con " + pileCards[0][posX - 1].toString());
-					System.out.println("Iter Nº" + numVueltas++);
-					printMatrix();
-					System.out.println("ESTO ES UN ESPACIO\n");
 
 					checkMoves(posX - 1, posY, 1);// Enviamos la posicion destino
 					checkOtherOption = false;// Cambiamos el falg para que no mire otras opciones
@@ -207,7 +194,7 @@ public class GameTable {
 			}
 
 		}
-
+		//printMatrix();
 		movements(1, 0);// volvemos a mirar todos los movimientos desde 0
 
 	}
@@ -221,7 +208,7 @@ public class GameTable {
 	 */
 
 	private void moveAllLeft(int posX, int posY) {
-		System.out.println("Movemos todo a la izq");
+
 		for (int j = 0; j < 51; j++) {
 			for (int i = posX; i < 51; i++) {
 				pileCards[j][i] = pileCards[j][i + 1]; // Movemos a la izquierda toda la baraja
@@ -239,7 +226,7 @@ public class GameTable {
 	 */
 
 	private void moveLeft(int posX, int posY) {
-		System.out.println("Movemos una a la izq");
+
 		pileCards[posY][posX - 1] = pileCards[posY][posX];
 
 	}
@@ -253,7 +240,7 @@ public class GameTable {
 	 *             las columnas
 	 */
 	private void moveThreeLeft(int posX, int posY) {
-		System.out.println("Movemos tres a la izq");
+
 		pileCards[posY][posX - 3] = pileCards[posY][posX];
 
 	}
@@ -266,7 +253,7 @@ public class GameTable {
 	 *             Movemos las cartas abajo para dejar hueco a la que se va a mover
 	 */
 	private void moveDown(int posX, int posY) {
-		System.out.println("Movemos abajo");
+
 		for (int i = 51; i >= 0; i--) {
 			if (i < 51) {
 				pileCards[i + 1][posX] = pileCards[i][posX];
@@ -284,7 +271,7 @@ public class GameTable {
 	 *             mover a la izquierda, tenemos que subir las cartas que hay debajo
 	 */
 	private void moveUp(int posX, int posY) {
-		System.out.println("Movemos arriba");
+
 		for (int i = 0; i < 51; i++) {
 			pileCards[i][posX] = pileCards[i + 1][posX]; // Subimos las que tenia debajo la que movimos
 															// a la izquierda
@@ -292,6 +279,10 @@ public class GameTable {
 	}
 
 	private void calculateResult() {
+		resultado[52] = 0;
+		for (int i = 0; i < 52; i++) {
+			resultado[i] = 0;
+		}
 
 		for (int i = 0; i < 52; i++) {
 			for (int j = 0; j < 52; j++) {
@@ -301,13 +292,11 @@ public class GameTable {
 				}
 
 			}
-			/*
-			 * for(int k = 0; k < 51; k++) { System.out.println(resultado[k]); }
-			 */
+
 		}
 
 	}
-
+	
 	public void printMatrix() {
 
 		/**
@@ -334,11 +323,6 @@ public class GameTable {
 		 * FIN DEBUG
 		 */
 
-	}
-
-	public String toString() {
-
-		return "";
-	}
+}
 
 }
