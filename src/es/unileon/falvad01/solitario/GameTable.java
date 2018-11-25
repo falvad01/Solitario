@@ -23,7 +23,7 @@ public class GameTable {
 	public GameTable() {
 		this.deck = new Card[52];
 		this.pileCards = new Card[52][52];
-		this.resultado = new int[53];
+		this.resultado = new int[52];
 	}
 
 	public int[] getResultado() {
@@ -279,7 +279,7 @@ public class GameTable {
 	}
 
 	private void calculateResult() {
-		resultado[52] = 0;
+		
 		for (int i = 0; i < 52; i++) {
 			resultado[i] = 0;
 		}

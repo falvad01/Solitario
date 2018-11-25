@@ -20,7 +20,7 @@ public class MainSolitario {
 		String preDeck;
 		String[] deck = new String[52];
 
-		int[] result = new int[53];
+		int[] result = new int[52];
 		int numPiles = 0;
 		
 
@@ -84,16 +84,14 @@ public class MainSolitario {
 
 					System.out.print("Han quedado " + numPiles + " pilas: ");
 				}
-				for (int k = 0; k < 53; k++) {
+				for (int k = 0; k < 52; k++) {
 
 					if (result[k] > 0) {
 						
-						if(result[k+1] == 0){
-						    System.out.print(result[k]);
-						}else{
-						    System.out.print(result[k] + " ");
+						
+						    System.out.print(" " + result[k]);
 						}
-					}
+					
 				}
 
 				System.out.println();
