@@ -12,17 +12,16 @@ import java.util.stream.Stream;
 
 public class MainSolitario {
 
-	public static void main(String[] args){
+	public static void main(String[] args) {
 
 		ArrayList<String> decks = new ArrayList<String>();
 		String[] buffer = new String[2];
 		StringBuffer subBuffer = new StringBuffer();
 		String preDeck;
 		String[] deck = new String[52];
-		
-		int [] result = new int[52];
+
+		int[] result = new int[52];
 		int numPiles = 0;
-		
 
 		GameTable table = new GameTable();
 
@@ -32,66 +31,74 @@ public class MainSolitario {
 		Scanner sc = new Scanner(System.in);
 
 		try {
-			
-		while (sc.hasNext("#") == false) { // Scanner hasta que introducimos el simbolo #
 
-			decks.add(sc.nextLine());
+			while (sc.hasNext("#") == false) { // Scanner hasta que introducimos el simbolo #
 
-		}
-		
-		sc.close();
-		deckNum = decks.size() / 2.0f;
-		//System.out.println("DECKS: " + decks);
+				decks.add(sc.nextLine());
 
-		for (int i = 0; i <= deckNum; i += 2) {// BUCLE PRINCIPAL, DA TANTAS VUELTAS COMO MAZOS DE CARTAS
-			//System.out.println("Vueltas" + i);
-			buffer = Stream.of(decks.get(i), decks.get(i + 1)).flatMap(Stream::of).toArray(String[]::new);// Juntamos la
-																											// baraja en
-																											// un mismo
-																											// array
-
-			for (int j = 0; j < buffer.length; j++) {
-
-				subBuffer.append(buffer[j]); // Trasformamos el array en stringBuffer
-				subBuffer.append(" ");
 			}
 
-			preDeck = subBuffer.toString();// Tranformamos el stringBuffer en string
+			sc.close();
+			deckNum = decks.size() / 2.0f;
+			// System.out.println("DECKS: " + decks);
 
-			deck = preDeck.split(" ");// Metemos cada carta en un nueva posicion del array
+			for (int i = 0; i <= deckNum; i += 2) {// BUCLE PRINCIPAL, DA TANTAS VUELTAS COMO MAZOS DE CARTAS
+				// System.out.println("Vueltas" + i);
+				buffer = Stream.of(decks.get(i), decks.get(i + 1)).flatMap(Stream::of).toArray(String[]::new);// Juntamos
+																												// la
+																												// baraja
+																												// en
+																												// un
+																												// mismo
+																												// array
 
-			cardNum = deck.length;
-			//System.out.println("Decks: " + deckNum + ";" + "Cards per deck: " + cardNum);
+				for (int j = 0; j < buffer.length; j++) {
 
-			table.addDeck(deck); //LLamamos al tablero de juego
-			
-			//table.printMatrix();
-			
-			result = table.getResultado();
-			
-			
-			for(int k = 0; k< 52;k++) {
-				
-				if(result[k] > 0) {
-					
-					numPiles++;
+					subBuffer.append(buffer[j]); // Trasformamos el array en stringBuffer
+					subBuffer.append(" ");
 				}
+
+				preDeck = subBuffer.toString();// Tranformamos el stringBuffer en string
+
+				deck = preDeck.split(" ");// Metemos cada carta en un nueva posicion del array
+
+				cardNum = deck.length;
+				// System.out.println("Decks: " + deckNum + ";" + "Cards per deck: " + cardNum);
+
+				table.addDeck(deck); // LLamamos al tablero de juego
+
+				// table.printMatrix();
+
+				result = table.getResultado();
+
+				for (int k = 0; k < 52; k++) {
+
+					if (result[k] > 0) {
+
+						numPiles++;
+					}
+				}
+				
+				//table.printMatrix(); //Matriz fianl
+
+				System.out.print("Han quedado " + numPiles + " pilas: ");
+				for (int k = 0; k < 52; k++) {
+					
+					if (result[k] > 0) { 
+						System.out.print(result[k] + " ");
+					}
+				}
+				
+				System.out.println("\n");
+				
+
+				numPiles = 0; //Reiniciamos el numero de pilas
+				subBuffer.delete(0, subBuffer.length()); // Borramos el buffer del StringBUffer
 			}
-			
-			System.out.print("Han quedado " + numPiles + " pilas: ");
-			for(int k = 0; k < 52; k++) {
-				System.out.print(result[k] + " ");
-			}
-			System.out.println("\n");
-			table.printMatrix();
-			
-			numPiles = 0;
-			subBuffer.delete(0, subBuffer.length()); // Borramos el buffer del StringBUffer
-		}
-		
-		}catch (SolitarioExceptions e) {
+
+		} catch (SolitarioExceptions e) {
 			System.out.println(e.getMessage());
-		
+
 		}
 
 	}

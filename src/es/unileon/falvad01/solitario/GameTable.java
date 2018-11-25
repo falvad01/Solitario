@@ -11,7 +11,7 @@ package es.unileon.falvad01.solitario;
  * COMPROVACION(SE PUEDE HACER RECURSIVO) SE PUEDE HACER CON FLAGS, CUANDO TODOS
  * SEAN FALSO(NO HAY ACCIONES) SE PASA A MIRAR LA CARTA SIGUIENTE
  * 
- * FALLO EN ITER 54-55, En 3: TS Con TH [TS SOLO SE MUEVE 1, BORRANDO JH Y DUPLICANDO TH]
+ * 
  */
 public class GameTable {
 
@@ -27,7 +27,7 @@ public class GameTable {
 		this.pileCards = new Card[52][52];
 		this.resultado = new int[52];
 	}
-	
+
 	public int[] getResultado() {
 		return this.resultado;
 	}
@@ -44,11 +44,6 @@ public class GameTable {
 
 		deck = deckObject.getDeck();
 		arrayToMatrix();
-		/*
-		 * for (int i = 0; i < 52; i++) {
-		 * 
-		 * System.out.println(deck[i]); }
-		 */
 
 	}
 
@@ -63,10 +58,12 @@ public class GameTable {
 		printMatrix();
 		System.out.println("PRIMERA MATRIZ");
 
-		if (movements(1, 0, false)) {
+		if (movements(1, 0)) {
+			System.out.println("REPETIMOS");
+			movements(1, 0);
 			calculateResult();
-			//System.out.println("Todo Comprovado");
-			
+			// System.out.println("Todo Comprovado");
+
 		}
 
 	}
@@ -89,28 +86,16 @@ public class GameTable {
 	 *                     DESDE LA PRIMERA CARTA)
 	 * 
 	 */
-	private boolean movements(int posX, int posY, boolean endMovements) {
+	private boolean movements(int posX, int posY) {
 
 		boolean checkOtherOption = true;
 
-		if ( posX == 51) {
+		if (posX == 52) {
 			return true;
 		} else {
 
-			if (pileCards[0][posX] != null
-					&& ((pileCards[0][posX].getNumber().equals(pileCards[0][posX - 1].getNumber()))
-							|| (pileCards[0][posX].getPalo().equals(pileCards[0][posX - 1].getPalo())))) { // Miramos si
-																											// la
-				// inmediatamente a
-				// la
-				// izquierda emparejan
-
-				System.out.println(pileCards[0][posX].toString() + " Con " + pileCards[0][posX - 1].toString());
-				checkMoves(posX - 1, posY, 1);// Enviamos la posicion destino
-				checkOtherOption = false;// Cambiamos el falg para que no mire otras opciones
-
-			} else if ((posX >= 3) && checkOtherOption) { // Para mirar la primera a la izquierda la primera posicion
-															// debe de ser la 3 y que la de la izquierda no se realizara
+			if ((posX >= 3) && checkOtherOption == true) { // Para mirar la primera a la izquierda la primera posicion
+				// debe de ser la 3 y que la de la izquierda no se realizara
 
 				if (pileCards[0][posX] != null
 						&& ((pileCards[0][posX].getNumber().equals(pileCards[0][posX - 3].getNumber()))
@@ -121,17 +106,41 @@ public class GameTable {
 					// una que
 					// empareja
 
-					System.out.println("En 3: " + pileCards[0][posX].toString() + " Con " + pileCards[0][posX - 3].toString());
+					System.out.println(
+							"En tres: " + pileCards[0][posX].toString() + " Con " + pileCards[0][posX - 3].toString());
+					System.out.println("Iter Nº" + numVueltas++);
+					printMatrix();
+					System.out.println();
+
 					checkMoves(posX - 3, posY, 3); // Enviamos la posicion destino
+					checkOtherOption = false;// Cambiamos el falg para que no mire otras opciones
+				}
+			}
+
+			if (checkOtherOption == true) {
+
+				if (pileCards[0][posX] != null
+						&& ((pileCards[0][posX].getNumber().equals(pileCards[0][posX - 1].getNumber()))
+								|| (pileCards[0][posX].getPalo().equals(pileCards[0][posX - 1].getPalo())))) { // Miramos
+																												// si
+																												// la
+					// inmediatamente a
+					// la
+					// izquierda emparejan
+
+					System.out.println(pileCards[0][posX].toString() + " Con " + pileCards[0][posX - 1].toString());
+					System.out.println("Iter Nº" + numVueltas++);
+					printMatrix();
+					System.out.println("ESTO ES UN ESPACIO\n");
+
+					checkMoves(posX - 1, posY, 1);// Enviamos la posicion destino
 					checkOtherOption = false;// Cambiamos el falg para que no mire otras opciones
 
 				}
-
 			}
-
 		}
 
-		return movements(posX + 1, posY, endMovements);
+		return movements(posX + 1, posY);
 
 	}
 
@@ -152,7 +161,7 @@ public class GameTable {
 	 */
 	private void checkMoves(int posX, int posY, int postToMove) {
 
-		//System.out.println(numVueltas++);
+		// System.out.println(numVueltas++);
 
 		if (postToMove == 1) { // Si hay que moverse solo una posicion habria que moverse: 1-Abajo la carta que
 								// esta em la posicion destino 2-todo a la izquierda
@@ -198,10 +207,8 @@ public class GameTable {
 			}
 
 		}
-		System.out.println("Iter Nº" +  numVueltas++);
-		printMatrix();
-		System.out.println("ESTO ES UN ESPACIO\n");
-		movements(1, 0, false);// volvemos a mirar todos los movimientos desde 0
+
+		movements(1, 0);// volvemos a mirar todos los movimientos desde 0
 
 	}
 
@@ -214,7 +221,7 @@ public class GameTable {
 	 */
 
 	private void moveAllLeft(int posX, int posY) {
-
+		System.out.println("Movemos todo a la izq");
 		for (int j = 0; j < 51; j++) {
 			for (int i = posX; i < 51; i++) {
 				pileCards[j][i] = pileCards[j][i + 1]; // Movemos a la izquierda toda la baraja
@@ -232,7 +239,7 @@ public class GameTable {
 	 */
 
 	private void moveLeft(int posX, int posY) {
-
+		System.out.println("Movemos una a la izq");
 		pileCards[posY][posX - 1] = pileCards[posY][posX];
 
 	}
@@ -246,7 +253,7 @@ public class GameTable {
 	 *             las columnas
 	 */
 	private void moveThreeLeft(int posX, int posY) {
-
+		System.out.println("Movemos tres a la izq");
 		pileCards[posY][posX - 3] = pileCards[posY][posX];
 
 	}
@@ -259,7 +266,7 @@ public class GameTable {
 	 *             Movemos las cartas abajo para dejar hueco a la que se va a mover
 	 */
 	private void moveDown(int posX, int posY) {
-
+		System.out.println("Movemos abajo");
 		for (int i = 51; i >= 0; i--) {
 			if (i < 51) {
 				pileCards[i + 1][posX] = pileCards[i][posX];
@@ -277,7 +284,7 @@ public class GameTable {
 	 *             mover a la izquierda, tenemos que subir las cartas que hay debajo
 	 */
 	private void moveUp(int posX, int posY) {
-
+		System.out.println("Movemos arriba");
 		for (int i = 0; i < 51; i++) {
 			pileCards[i][posX] = pileCards[i + 1][posX]; // Subimos las que tenia debajo la que movimos
 															// a la izquierda
@@ -286,22 +293,17 @@ public class GameTable {
 
 	private void calculateResult() {
 
-		
-		
-		
 		for (int i = 0; i < 52; i++) {
-			for(int j = 0; j< 52;j++) {
-				
-				if(pileCards[i][j] != null) {
+			for (int j = 0; j < 52; j++) {
+
+				if (pileCards[i][j] != null) {
 					resultado[j]++;
 				}
-				
+
 			}
 			/*
-			for(int k = 0; k < 51; k++) {
-				System.out.println(resultado[k]);
-			}
-*/
+			 * for(int k = 0; k < 51; k++) { System.out.println(resultado[k]); }
+			 */
 		}
 
 	}
@@ -312,17 +314,20 @@ public class GameTable {
 		 * DEBUG
 		 */
 		for (int x = 0; x < pileCards.length; x++) {
-			System.out.print("|");
+			System.out.print("");
 			for (int y = 0; y < pileCards[x].length; y++) {
-
-				System.out.print(pileCards[x][y]);
-
+				if (pileCards[x][y] != null) {
+					System.out.print(pileCards[x][y]);
+				}
 				if (y != pileCards[x].length - 1) {
+
 					System.out.print("\t");
 
 				}
 			}
-			System.out.println("|");
+
+			System.out.println("");
+
 		}
 
 		/**
