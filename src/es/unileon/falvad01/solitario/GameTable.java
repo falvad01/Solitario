@@ -19,6 +19,8 @@ public class GameTable {
 	private Card[][] pileCards;
 	int[] resultado;
 	private int posToDelete = 51;
+	private int count1 = 0;
+	private int count3 = 0;
 
 	public GameTable() {
 		this.deck = new Card[52];
@@ -62,6 +64,7 @@ public class GameTable {
 		posToDelete = 51; // Reiniciamos la posicion a borrar
 		if (movements(1, 0)) {
 			calculateResult(); // Contamos las filas
+			eestadisticas();
 		}
 
 	}
@@ -105,6 +108,7 @@ public class GameTable {
 					// empareja
 
 					checkMoves(posX - 3, posY, 3); // Enviamos la posicion destino
+					count3++;
 					checkOtherOption = false;// Cambiamos el falg para que no mire otras opciones
 				}
 			}
@@ -121,6 +125,7 @@ public class GameTable {
 					// izquierda emparejan
 
 					checkMoves(posX - 1, posY, 1);// Enviamos la posicion destino
+					count1++;
 					checkOtherOption = false;// Cambiamos el falg para que no mire otras opciones
 
 				}
@@ -297,6 +302,13 @@ public class GameTable {
 
 		}
 
+	}
+	
+	private void eestadisticas() {
+		
+		System.out.println("Ha habido "  + count1 + " saltos de uno y " + count3 + " saltos de tres." );
+		count1 = 0;
+		count3 = 0;
 	}
 	
 	public void printMatrix() {
