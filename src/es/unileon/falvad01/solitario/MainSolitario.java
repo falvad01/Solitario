@@ -22,7 +22,6 @@ public class MainSolitario {
 
 		int[] result = new int[52];
 		int numPiles = 0;
-		
 
 		GameTable table = new GameTable();
 
@@ -38,13 +37,13 @@ public class MainSolitario {
 			}
 
 			sc.close();
-
+			long tiempoInit = System.currentTimeMillis();
 			deckNum = decks.size() / 2.0f;
-			
-			
-			for (int i = 0; i <= deckNum*2-1; i += 2) {// BUCLE PRINCIPAL, DA TANTAS VUELTAS COMO MAZOS DE CARTAS
-				
-				
+			String check[][] = new String[(int) deckNum][52]; // TODO NUEVO
+			int h = 0;
+
+			for (int i = 0; i <= deckNum * 2 - 1; i += 2) {// BUCLE PRINCIPAL, DA TANTAS VUELTAS COMO MAZOS DE CARTAS
+
 				buffer = Stream.of(decks.get(i), decks.get(i + 1)).flatMap(Stream::of).toArray(String[]::new);// Juntamos
 																												// la
 																												// baraja
@@ -62,11 +61,31 @@ public class MainSolitario {
 				preDeck = subBuffer.toString();// Tranformamos el stringBuffer en string
 
 				deck = preDeck.split(" ");// Metemos cada carta en un nueva posicion del array
-				
-				
-				
 
-				table.addDeck(deck); // LLamamos al tablero de juego
+				Deck deckObject = new Deck();
+
+				for (int j = 0; j < 52; j++) {
+					deckObject.addCard(deck[j]);
+					check[h][j] = deck[j];
+
+				}
+				h++;
+
+				subBuffer.delete(0, subBuffer.length()); // Borramos el buffer del StringBUffer
+
+			}
+
+			//////////////////////////////
+			int g = 0;
+			String[] deckk = new String[52];
+			for (int i = 0; i <= deckNum * 2 - 1; i += 2) {
+
+				for (int j = 0; j < 52; j++) {
+					deckk[j] = check[g][j];
+				}
+				g++;
+
+				table.addDeck(deckk); // LLamamos al tablero de juego
 
 				result = table.getResultado();
 
@@ -79,19 +98,18 @@ public class MainSolitario {
 				}
 
 				if (numPiles == 1) {
-					System.out.print("Ha quedado " + numPiles + " pila: ");
+					System.out.print("Ha quedado " + numPiles + " pila:");
 				} else {
 
-					System.out.print("Han quedado " + numPiles + " pilas: ");
+					System.out.print("Han quedado " + numPiles + " pilas:");
 				}
 				for (int k = 0; k < 52; k++) {
 
 					if (result[k] > 0) {
-						
-						
-						    System.out.print(" " + result[k]);
-						}
-					
+
+						System.out.print(" " + result[k]);
+					}
+
 				}
 
 				System.out.println();
@@ -101,9 +119,13 @@ public class MainSolitario {
 				}
 
 				numPiles = 0; // Reiniciamos el numero de pilas
-				subBuffer.delete(0, subBuffer.length()); // Borramos el buffer del StringBUffer
-
 			}
+
+			////////////////////////
+			long f = System.currentTimeMillis();
+			long finall = f - tiempoInit;
+
+			System.out.println(finall);
 
 		} catch (SolitarioExceptions e) {
 			System.out.println(e.getMessage());

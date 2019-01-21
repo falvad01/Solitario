@@ -132,7 +132,7 @@ public class GameTable {
 	}
 
 	/**
-	 * TIENE PREFERENCIA MOVER ARRIBA ANTES QUE MOVER A LA IZQUIERDA TODO EL FALLO
+	 * TIENE PREFERENCIA MOVER ARRIBA ANTES QUE MOVER A LA IZQUIERDA TO DO EL FALLO
 	 * DE QUE NO EMPAREJEN BIEN LAS CARTAS PUEDE ESTAR AQUI
 	 */
 
@@ -179,6 +179,8 @@ public class GameTable {
 				// izquierda por mover arriba todas las cartas que esten
 				// debajo de el
 
+				
+				
 				moveDown(posX, posY);
 				moveThreeLeft(posX + 3, posY);
 				moveUp(posX + 3, posY);
@@ -323,6 +325,6 @@ public class GameTable {
 		 * FIN DEBUG
 		 */
 
-}
+	}
 
 }

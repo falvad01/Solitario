@@ -16,6 +16,7 @@ AH 2H 3H 4H 5H 6H 7H 8H 9H KH 6S QH TH AS 2S 3S 4S 5S JH 7S 8S 9S TS JS QS KS
 #
 
 
+
  */
 public class Deck {
 
@@ -78,16 +79,16 @@ public class Deck {
 
 						deck[next++] = cardObject;
 					} else {
-						throw new SolitarioExceptions("Entrada incorrecta");
+						throw new SolitarioExceptions("Entrada incorrecta.");
 					}
 				}
 
 			} else {
-				throw new SolitarioExceptions("Entrada incorrecta");
+				throw new SolitarioExceptions("Entrada incorrecta.");
 			}
 
 		} else {
-			throw new SolitarioExceptions("Entrada incorrecta");
+			throw new SolitarioExceptions("Entrada incorrecta.");
 		}
 
 	}
@@ -108,7 +109,7 @@ public class Deck {
 		boolean out = true;
 
 		for (int i = 0; i < this.next; i++) {
-			// System.out.println(i);
+			
 
 			if ((this.deck[i].getNumber().equals(card.getNumber()))
 					&& (this.deck[i].getPalo().equals(card.getPalo()))) {
